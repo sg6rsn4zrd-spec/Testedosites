@@ -6,7 +6,6 @@
     <title>LISBOA PRO MASTER - OFICIAL</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
@@ -18,32 +17,25 @@
             --text: #e1e8f0;
         }
         
-        body { 
-            margin: 0; font-family: 'Inter', sans-serif; 
-            background: var(--bg); color: var(--text); 
-            padding-bottom: 80px; overflow-x: hidden;
-        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 80px; }
 
         /* Cabeçalho com sua Logo */
-        .header { 
-            background: #161b28; padding: 15px; text-align: center; 
-            border-bottom: 1px solid rgba(255,255,255,0.1); 
-        }
-        .header img { max-width: 160px; height: auto; display: block; margin: 0 auto; }
+        .header { background: #161b28; padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .header img { max-width: 150px; height: auto; display: block; margin: 0 auto; }
 
         .container { padding: 15px; max-width: 500px; margin: auto; }
 
-        /* Card de Saldo igual ao da Foto */
+        /* Card de Saldo da Foto */
         .balance-card {
             background: #1e2a4a; padding: 25px; border-radius: 24px; text-align: center; margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
         }
         .balance-card h2 { margin: 0; font-size: 0.75rem; text-transform: uppercase; opacity:0.8; letter-spacing: 1px; }
-        .balance-val { font-size: 3.2rem; font-weight: 800; color: var(--success); margin: 10px 0; }
+        .balance-val { font-size: 3rem; font-weight: 800; color: var(--success); margin: 10px 0; }
         
-        .sub-balance { display:flex; justify-content:space-between; font-size:10px; font-weight: bold; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; }
+        .sub-balance { display:flex; justify-content:space-between; font-size:10px; font-weight: bold; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        /* Grid de 12 Botões (4 colunas) */
+        /* Menu de 12 Botões (4 colunas) */
         .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
         .menu-item {
             background: rgba(255,255,255,0.05); padding: 15px 2px; border-radius: 16px;
@@ -54,18 +46,18 @@
         .menu-item i { font-size: 1.4rem; color: var(--accent); margin-bottom: 6px; display:block; }
         .menu-item span { font-size: 0.52rem; font-weight:800; text-transform: uppercase; display: block; color: #fff; }
 
-        /* Estilo das Seções */
+        /* Seções */
         .section { display:none; background: var(--card); padding: 20px; border-radius:24px; animation: slideIn 0.3s ease; border: 1px solid rgba(255,255,255,0.05); }
         .active { display:block; }
         @keyframes slideIn { from { opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
 
         input, select, textarea {
             background:#0f141e; border:1px solid #2d364a; color:white;
-            padding:14px; border-radius:12px; width:100%; box-sizing:border-box; margin:8px 0; font-size: 14px;
+            padding:14px; border-radius:12px; width:100%; box-sizing:border-box; margin:8px 0;
         }
         button {
             background:var(--primary); color:white; padding:16px; border-radius:14px;
-            border:none; font-weight:800; width:100%; cursor:pointer; margin-top:10px; text-transform: uppercase; letter-spacing: 1px;
+            border:none; font-weight:800; width:100%; cursor:pointer; margin-top:10px; text-transform: uppercase;
         }
         .btn-success { background: var(--success); color: #0a0e17; }
         .btn-danger { background: var(--danger); }
@@ -76,37 +68,15 @@
             border-left:4px solid var(--primary); font-size: 14px;
         }
         .badge { background: var(--danger); color:white; border-radius:50px; padding:2px 8px; font-size:9px; position:absolute; top:-5px; right:-5px; font-weight: bold; }
-        
-        .ia-box { background:#000; border:1px solid var(--success); padding:15px; border-radius:12px; font-family:monospace; color:var(--success); font-size:12px; line-height: 1.5; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <img src="B1BCC237-7C89-4142-8131-6DA05C2A2C61 2.png" alt="Lisboa Pro Master Logo">
+    <img src="B1BCC237-7C89-4142-8131-6DA05C2A2C61 2.png" alt="Lisboa Pro Master">
 </div>
 
-<div id="loginPage" class="container">
-    <div class="balance-card">
-        <i class="fas fa-lock" style="font-size:2rem; color:var(--accent); margin-bottom:10px"></i>
-        <h3>ACESSO PRIVADO</h3>
-        <input id="pass" type="password" placeholder="Sua Senha">
-        <button onclick="login()">ENTRAR NO SISTEMA</button>
-    </div>
-</div>
-
-<div id="mainPage" class="container" style="display:none">
-    
-    <select id="filtroMes" onchange="render()" style="margin-bottom: 10px; background: transparent; border: none; color: var(--accent); font-weight: bold; width: auto;">
-        <option value="all">📊 TOTAL GERAL</option>
-        <option value="0">Janeiro</option><option value="1">Fevereiro</option>
-        <option value="2">Março</option><option value="3">Abril</option>
-        <option value="4">Maio</option><option value="5">Junho</option>
-        <option value="6">Julho</option><option value="7">Agosto</option>
-        <option value="8">Setembro</option><option value="9">Outubro</option>
-        <option value="10">Novembro</option><option value="11">Dezembro</option>
-    </select>
-
+<div class="container">
     <div class="balance-card">
         <h2>SALDO REAL (LUCRO LIMPO)</h2>
         <div class="balance-val" id="val-lucro">R$ 0,00</div>
@@ -138,250 +108,135 @@
     </div>
 
     <div id="sec-dash" class="section active">
-        <h3 style="margin-top:0">📊 Resumo Financeiro</h3>
-        <canvas id="chartFin" height="250"></canvas>
-        <div style="margin-top:20px">
-            <input id="metaLucro" type="number" placeholder="Meta de Lucro R$">
-            <button class="btn-success" onclick="gerarPDF()">BAIXAR RELATÓRIO PDF</button>
-            <button class="btn-danger" onclick="confirmReset()">ZERAR DADOS DO SISTEMA</button>
-        </div>
+        <h3>📊 Dashboard</h3>
+        <canvas id="chartFin"></canvas>
+        <button class="btn-success" onclick="exportarPDF()">Exportar PDF</button>
     </div>
 
     <div id="sec-serv" class="section">
-        <h3>🔧 Cadastrar Serviço</h3>
-        <input id="sNome" placeholder="Nome do Cliente">
-        <input id="sPlaca" placeholder="Placa do Veículo">
-        <input id="sCel" placeholder="WhatsApp (ex: 5511999999999)">
-        <input id="sMao" type="number" placeholder="Valor Mão de Obra R$">
-        <input id="sPec" type="number" placeholder="Valor das Peças R$">
-        <select id="sOleo">
-            <option value="nao">Troca de Óleo? Não</option>
-            <option value="sim">Sim (Lembrar em 90 dias)</option>
-        </select>
-        <button class="btn-success" onclick="salvarServico()">SALVAR SERVIÇO</button>
-        <button onclick="zapOrcamento()">ENVIAR ORÇAMENTO WHATSAPP</button>
+        <h3>🔧 Novo Serviço</h3>
+        <input id="sNome" placeholder="Cliente">
+        <input id="sPlaca" placeholder="Placa">
+        <input id="sMao" type="number" placeholder="Mão de Obra R$">
+        <input id="sPec" type="number" placeholder="Peças R$">
+        <input id="sCel" placeholder="WhatsApp">
+        <select id="sOleo"><option value="nao">Troca Óleo: Não</option><option value="sim">Troca Óleo: Sim</option></select>
+        <button class="btn-success" onclick="salvarServico()">Salvar</button>
     </div>
 
     <div id="sec-contas" class="section">
-        <h3>💸 Lançar Despesa</h3>
-        <input id="cDesc" placeholder="Ex: Aluguel, Luz, Peças">
+        <h3>💸 Despesas</h3>
+        <input id="cDesc" placeholder="Descrição">
         <input id="cVal" type="number" placeholder="Valor R$">
-        <button class="btn-danger" onclick="salvarConta()">PAGAR AGORA</button>
-        <div id="lista-contas" style="margin-top: 20px;"></div>
+        <button class="btn-danger" onclick="salvarConta()">Lançar</button>
+        <div id="l-contas"></div>
     </div>
 
     <div id="sec-hist" class="section">
-        <h3>🔍 Histórico e Busca</h3>
-        <input id="busca" placeholder="Filtrar por nome ou placa..." onkeyup="render()">
-        <div id="lista-hist"></div>
+        <h3>🔍 Histórico</h3>
+        <input id="busca" placeholder="Buscar..." onkeyup="render()">
+        <div id="l-hist"></div>
     </div>
 
-    <div id="sec-oleo" class="section"><h3>🛢️ Vencimentos de Óleo</h3><div id="lista-oleo"></div></div>
+    <div id="sec-oleo" class="section"><h3>🛢️ Retorno de Óleo</h3><div id="l-oleo"></div></div>
 
     <div id="sec-estoque" class="section">
-        <h3>📦 Controle de Estoque</h3>
-        <input id="eN" placeholder="Nome da Peça">
-        <input id="eQ" type="number" placeholder="Quantidade">
-        <button onclick="addObj('estoque','eN','eQ')">ADICIONAR</button>
+        <h3>📦 Estoque</h3>
+        <input id="eN" placeholder="Peça"><input id="eQ" type="number" placeholder="Qtd">
+        <button onclick="addObj('estoque','eN','eQ')">Adicionar</button>
         <div id="l-estoque"></div>
     </div>
 
     <div id="sec-tabela" class="section">
-        <h3>📋 Tabela de Preços Sugeridos</h3>
-        <input id="tN" placeholder="Nome do Serviço">
-        <input id="tV" placeholder="Valor Médio">
-        <button onclick="addObj('tabela','tN','tV')">ADICIONAR</button>
+        <h3>📋 Tabela de Preços</h3>
+        <input id="tN" placeholder="Serviço"><input id="tV" placeholder="Valor">
+        <button onclick="addObj('tabela','tN','tV')">Adicionar</button>
         <div id="l-tabela"></div>
     </div>
 
     <div id="sec-taxa" class="section">
-        <h3>💳 Calculadora de Repasse (Taxas)</h3>
-        <input id="taxV" type="number" placeholder="Valor que deseja receber limpo">
-        <button onclick="calcTaxa()">CALCULAR PREÇO FINAL</button>
+        <h3>💳 Calculadora Taxas</h3>
+        <input id="taxV" type="number" placeholder="Valor Líquido">
+        <button onclick="calcTaxa()">Calcular</button>
     </div>
 
     <div id="sec-agenda" class="section">
-        <h3>📅 Agenda de Retornos</h3>
-        <input id="aN" placeholder="Cliente / Motivo">
-        <input id="aD" type="date">
-        <button onclick="addObj('agenda','aN','aD')">AGENDAR</button>
+        <h3>📅 Agenda</h3>
+        <input id="aN" placeholder="Cliente"><input id="aD" type="date">
+        <button onclick="addObj('agenda','aN','aD')">Agendar</button>
         <div id="l-agenda"></div>
     </div>
 
     <div id="sec-compras" class="section">
         <h3>🛒 Lista de Compras</h3>
-        <input id="cpN" placeholder="O que precisa comprar?">
-        <button onclick="addObj('compras','cpN')">ADD NA LISTA</button>
+        <input id="cpN" placeholder="Item">
+        <button onclick="addObj('compras','cpN')">Add Lista</button>
         <div id="l-compras"></div>
     </div>
 
     <div id="sec-check" class="section">
-        <h3>📋 Check-list de Entrada</h3>
-        <input id="chP" placeholder="Placa do Veículo">
-        <textarea id="chD" placeholder="Avarias, riscos, nível de combustível..."></textarea>
-        <button onclick="addObj('check','chP','chD')">SALVAR CHECK-LIST</button>
+        <h3>📋 Check-list</h3>
+        <input id="chP" placeholder="Placa"><textarea id="chD" placeholder="Observações"></textarea>
+        <button onclick="addObj('check','chP','chD')">Salvar Check</button>
         <div id="l-check"></div>
     </div>
 
     <div id="sec-ia" class="section">
-        <h3>🤖 Inteligência e Backup</h3>
-        <div id="ia-res" class="ia-box">Pronto para analisar seu financeiro...</div>
-        <button onclick="analisarIA()">GERAR DIAGNÓSTICO</button>
-        <hr style="opacity:0.1; margin: 20px 0;">
-        <button onclick="gerarBackup()" style="background:#333">CÓDIGO DE BACKUP (SALVAR)</button>
-        <textarea id="txtBack" style="font-size:8px" placeholder="Seu código de segurança aparecerá aqui"></textarea>
+        <h3>🤖 I.A e Backup</h3>
+        <div id="ia-res" style="background:#000; color:#00f298; padding:15px; border-radius:12px; font-family:monospace">Aguardando análise...</div>
+        <button onclick="gerarBackup()">Gerar Código de Backup</button>
+        <textarea id="txtBack" style="font-size:8px; margin-top:10px"></textarea>
     </div>
-
 </div>
 
 <script>
-// BANCO DE DADOS LOCAL
-let db = JSON.parse(localStorage.getItem('lisboa_master')) || {
-    servicos:[], despesas:[], estoque:[], tabela:[], agenda:[], compras:[], check:[]
-};
-let chart;
+    let db = JSON.parse(localStorage.getItem('lisboa_master')) || { servicos:[], despesas:[], estoque:[], tabela:[], agenda:[], compras:[], check:[] };
+    let chart;
 
-function login(){
-    if(document.getElementById('pass').value === '1234'){
-        document.getElementById('loginPage').style.display='none';
-        document.getElementById('mainPage').style.display='block';
-        render();
-    } else { Swal.fire('Erro','Senha incorreta','error'); }
-}
-
-function nav(id){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    window.scrollTo(0,0);
-}
-
-function salvarServico(){
-    const s = {
-        n: document.getElementById('sNome').value,
-        p: document.getElementById('sPlaca').value.toUpperCase(),
-        m: parseFloat(document.getElementById('sMao').value) || 0,
-        pe: parseFloat(document.getElementById('sPec').value) || 0,
-        z: document.getElementById('sCel').value,
-        ol: document.getElementById('sOleo').value,
-        d: new Date().getTime()
-    };
-    if(s.n && s.m > 0){ db.servicos.unshift(s); save(); Swal.fire('Sucesso','Serviço registrado!','success'); }
-}
-
-function salvarConta(){
-    const v = parseFloat(document.getElementById('cVal').value) || 0;
-    if(v > 0){
-        db.despesas.unshift({ n: document.getElementById('cDesc').value, v: v, d: new Date().getTime() });
-        save();
-    }
-}
-
-function render(){
-    const mes = document.getElementById('filtroMes').value;
-    let sF = db.servicos;
-    let dF = db.despesas;
-
-    if(mes !== 'all'){
-        sF = db.servicos.filter(s => new Date(s.d).getMonth() == mes);
-        dF = db.despesas.filter(d => new Date(d.d).getMonth() == mes);
+    function nav(id){
+        document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+        document.getElementById(id).classList.add('active');
+        window.scrollTo(0,0);
     }
 
-    let mao = sF.reduce((a,b)=>a+b.m, 0);
-    let pecas = sF.reduce((a,b)=>a+b.pe, 0);
-    let contas = dF.reduce((a,b)=>a+b.v, 0);
+    function save(){ localStorage.setItem('lisboa_master', JSON.stringify(db)); render(); }
 
-    document.getElementById('val-lucro').innerText = "R$ " + (mao - contas).toFixed(2);
-    document.getElementById('val-mao').innerText = "R$ " + mao.toFixed(2);
-    document.getElementById('val-contas').innerText = "R$ " + contas.toFixed(2);
-    document.getElementById('val-pecas').innerText = "R$ " + pecas.toFixed(2);
+    function salvarServico(){
+        let s = { n: document.getElementById('sNome').value, p: document.getElementById('sPlaca').value.toUpperCase(), m: parseFloat(document.getElementById('sMao').value)||0, pe: parseFloat(document.getElementById('sPec').value)||0, z: document.getElementById('sCel').value, ol: document.getElementById('sOleo').value, d: new Date().getTime() };
+        if(s.m > 0){ db.servicos.unshift(s); save(); Swal.fire('Salvo!','','success'); }
+    }
 
-    // Listas
-    const busca = document.getElementById('busca').value.toUpperCase();
-    document.getElementById('lista-hist').innerHTML = sF.filter(s => s.p.includes(busca) || s.n.toUpperCase().includes(busca))
-        .map(s => `<div class="list-item"><span>${s.p} - ${s.n}</span><b>R$ ${s.m+s.pe}</b></div>`).join('');
+    function salvarConta(){
+        let v = parseFloat(document.getElementById('cVal').value)||0;
+        if(v > 0){ db.despesas.unshift({n: document.getElementById('cDesc').value, v:v, d: new Date().getTime()}); save(); }
+    }
 
-    // Óleo Notificação
-    let hoje = new Date().getTime();
-    let vCount = 0;
-    let oHtml = "";
-    db.servicos.forEach(s => {
-        if(s.ol === 'sim'){
-            let dias = Math.floor((hoje - s.d)/86400000);
-            if(dias >= 90){
-                vCount++;
-                oHtml += `<div class="list-item" style="border-left: 4px solid red"><span>${s.p} - ${s.n}</span><i class="fab fa-whatsapp" style="color:green" onclick="window.open('https://wa.me/${s.z}?text=Olá! Notamos que faz 90 dias da sua última troca de óleo. Vamos agendar?')"></i></div>`;
-            }
-        }
-    });
-    document.getElementById('notif-oleo').innerText = vCount;
-    document.getElementById('notif-oleo').style.display = vCount > 0 ? 'block' : 'none';
-    document.getElementById('lista-oleo').innerHTML = oHtml || "Nenhuma troca pendente.";
+    function render(){
+        let mao = db.servicos.reduce((a,b)=>a+b.m,0);
+        let pecas = db.servicos.reduce((a,b)=>a+b.pe,0);
+        let contas = db.despesas.reduce((a,b)=>a+b.v,0);
 
-    // Render Geral
-    const draw = (arr, id) => document.getElementById(id).innerHTML = arr.map(x=>`<div class="list-item"><span>${x.n}</span><b>${x.v||''}</b></div>`).join('');
-    draw(db.estoque, 'l-estoque');
-    draw(db.tabela, 'l-tabela');
-    draw(db.agenda, 'l-agenda');
-    draw(db.compras, 'l-compras');
-    draw(db.check, 'l-check');
-    draw(dF, 'lista-contas');
+        document.getElementById('val-lucro').innerText = "R$ " + (mao - contas).toFixed(2);
+        document.getElementById('val-mao').innerText = "R$ " + mao.toFixed(2);
+        document.getElementById('val-contas').innerText = "R$ " + contas.toFixed(2);
+        document.getElementById('val-pecas').innerText = "R$ " + pecas.toFixed(2);
 
-    // Gráfico
-    const ctx = document.getElementById('chartFin').getContext('2d');
-    if(chart) chart.destroy();
-    chart = new Chart(ctx, {
-        type:'doughnut',
-        data:{ labels:['Lucro','Contas','Peças'], datasets:[{data:[mao-contas, contas, pecas], backgroundColor:['#00f298','#ff4b5c','#2a5ee8'], borderWidth:0}] },
-        options: { cutout:'75%', plugins:{ legend:{ position: 'bottom', labels:{color:'#fff', font:{size:10}} } } }
-    });
-}
+        const b = document.getElementById('busca').value.toUpperCase();
+        document.getElementById('l-hist').innerHTML = db.servicos.filter(s => s.p.includes(b) || s.n.toUpperCase().includes(b)).map(s => `<div class="list-item"><span>${s.p} - ${s.n}</span><b>R$ ${s.m+s.pe}</b></div>`).join('');
 
-function save(){ localStorage.setItem('lisboa_master', JSON.stringify(db)); render(); }
+        const draw = (arr, id) => document.getElementById(id).innerHTML = arr.map(x => `<div class="list-item"><span>${x.n}</span><b>${x.v||''}</b></div>`).join('');
+        draw(db.estoque, 'l-estoque'); draw(db.tabela, 'l-tabela'); draw(db.agenda, 'l-agenda'); draw(db.compras, 'l-compras'); draw(db.check, 'l-check'); draw(db.despesas, 'l-contas');
 
-function addObj(t,id1,id2){
-    let o={n:document.getElementById(id1).value}; 
-    if(id2) o.v=document.getElementById(id2).value; 
-    db[t].unshift(o); 
-    document.getElementById(id1).value=''; 
-    if(id2) document.getElementById(id2).value='';
-    save();
-}
+        const ctx = document.getElementById('chartFin').getContext('2d');
+        if(chart) chart.destroy();
+        chart = new Chart(ctx, { type:'doughnut', data:{ labels:['Lucro','Contas','Peças'], datasets:[{data:[mao-contas, contas, pecas], backgroundColor:['#00f298','#ff4b5c','#2a5ee8'], borderWidth:0}] }, options:{ cutout:'75%', plugins:{legend:{position:'bottom',labels:{color:'#fff'}}}}});
+    }
 
-function calcTaxa(){
-    let v = parseFloat(document.getElementById('taxV').value);
-    Swal.fire('Resultado', `Para sobrar R$ ${v} livre, você deve cobrar R$ ${(v/0.88).toFixed(2)} (Considerando 12% de taxa).`, 'info');
-}
-
-function zapOrcamento(){
-    let m = document.getElementById('sMao').value;
-    let p = document.getElementById('sPec').value;
-    let cel = document.getElementById('sCel').value;
-    let total = parseFloat(m) + parseFloat(p);
-    window.open(`https://wa.me/${cel}?text=ORÇAMENTO LISBOA MASTER:%0A%0AMão de Obra: R$ ${m}%0APeças: R$ ${p}%0A---%0ATOTAL: R$ ${total.toFixed(2)}`);
-}
-
-function analisarIA(){
-    let l = parseFloat(document.getElementById('val-lucro').innerText.replace('R$ ',''));
-    let msg = l > 0 ? "O lucro está positivo. Mantenha o controle de gastos fixos." : "Atenção: Suas despesas estão maiores que os ganhos de mão de obra!";
-    document.getElementById('ia-res').innerText = "> " + msg;
-}
-
-function gerarPDF(){ 
-    const {jsPDF}=window.jspdf; 
-    let d=new jsPDF(); 
-    d.text("RELATÓRIO LISBOA PRO MASTER",10,10);
-    d.text("Total Mão de Obra: " + document.getElementById('val-mao').innerText, 10, 20);
-    d.text("Total Despesas: " + document.getElementById('val-contas').innerText, 10, 30);
-    d.save("Financeiro_Oficina.pdf"); 
-}
-
-function gerarBackup(){ document.getElementById('txtBack').value = btoa(JSON.stringify(db)); }
-
-function confirmReset(){
-    Swal.fire({title:'Zerar?', text:'Deseja apagar todos os registros?', icon:'warning', showCancelButton:true}).then(r=>{if(r.isConfirmed){db={servicos:[],despesas:[],estoque:[],tabela:[],agenda:[],compras:[],check:[]}; save();}});
-}
-
-render();
+    function addObj(t,i1,i2){ let o={n:document.getElementById(i1).value}; if(i2) o.v=document.getElementById(i2).value; db[t].unshift(o); save(); }
+    function calcTaxa(){ let v = parseFloat(document.getElementById('taxV').value); Swal.fire('Cobrar:', 'R$ ' + (v/0.88).toFixed(2), 'info'); }
+    function gerarBackup(){ document.getElementById('txtBack').value = btoa(JSON.stringify(db)); }
+    
+    render();
 </script>
 </body>
 </html>
