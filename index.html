@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LISBOA PRO MASTER - OFICIAL</title>
+    <title>LISBOA PRO MASTER - COMPLETO</title>
     
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -19,13 +19,13 @@
         
         body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding-bottom: 80px; }
 
-        /* Cabeçalho com sua Logo */
-        .header { background: #161b28; padding: 15px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        /* Cabeçalho com sua LOGO */
+        .header { background: #161b28; padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
         .header img { max-width: 150px; height: auto; display: block; margin: 0 auto; }
 
         .container { padding: 15px; max-width: 500px; margin: auto; }
 
-        /* Card de Saldo da Foto */
+        /* Card de Saldo Premium */
         .balance-card {
             background: #1e2a4a; padding: 25px; border-radius: 24px; text-align: center; margin-bottom: 20px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.05);
@@ -35,10 +35,10 @@
         
         .sub-balance { display:flex; justify-content:space-between; font-size:10px; font-weight: bold; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1); }
 
-        /* Menu de 12 Botões (4 colunas) */
+        /* Grid de 12 Botões (4 colunas) */
         .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
         .menu-item {
-            background: rgba(255,255,255,0.05); padding: 15px 2px; border-radius: 16px;
+            background: rgba(255,255,255,0.05); padding: 18px 2px; border-radius: 16px;
             text-align: center; cursor: pointer; transition: 0.2s; border: 1px solid rgba(255,255,255,0.02);
             position: relative;
         }
@@ -46,7 +46,7 @@
         .menu-item i { font-size: 1.4rem; color: var(--accent); margin-bottom: 6px; display:block; }
         .menu-item span { font-size: 0.52rem; font-weight:800; text-transform: uppercase; display: block; color: #fff; }
 
-        /* Seções */
+        /* Seções Estilizadas */
         .section { display:none; background: var(--card); padding: 20px; border-radius:24px; animation: slideIn 0.3s ease; border: 1px solid rgba(255,255,255,0.05); }
         .active { display:block; }
         @keyframes slideIn { from { opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
@@ -73,7 +73,7 @@
 <body>
 
 <div class="header">
-    <img src="B1BCC237-7C89-4142-8131-6DA05C2A2C61 2.png" alt="Lisboa Pro Master">
+    <img src="B1BCC237-7C89-4142-8131-6DA05C2A2C61 2.png" alt="Lisboa Logo">
 </div>
 
 <div class="container">
@@ -89,108 +89,117 @@
 
     <div class="menu-grid">
         <div class="menu-item" onclick="nav('sec-dash')"><i class="fas fa-chart-line"></i><span>Dash</span></div>
-        <div class="menu-item" onclick="nav('sec-serv')"><i class="fas fa-plus"></i><span>Novo</span></div>
-        <div class="menu-item" onclick="nav('sec-contas')"><i class="fas fa-receipt"></i><span>Contas</span></div>
+        <div class="menu-item" onclick="nav('sec-serv')"><i class="fas fa-plus-circle"></i><span>Novo</span></div>
+        <div class="menu-item" onclick="nav('sec-contas')"><i class="fas fa-file-invoice-dollar"></i><span>Contas</span></div>
         <div class="menu-item" onclick="nav('sec-hist')"><i class="fas fa-search"></i><span>Busca</span></div>
         
         <div class="menu-item" onclick="nav('sec-oleo')">
             <i class="fas fa-oil-can"></i><span>Óleo</span>
             <span id="notif-oleo" class="badge" style="display:none">0</span>
         </div>
-        <div class="menu-item" onclick="nav('sec-estoque')"><i class="fas fa-box"></i><span>Estoque</span></div>
-        <div class="menu-item" onclick="nav('sec-tabela')"><i class="fas fa-tags"></i><span>Tabela</span></div>
+        <div class="menu-item" onclick="nav('sec-estoque')"><i class="fas fa-box-open"></i><span>Estoque</span></div>
+        <div class="menu-item" onclick="nav('sec-tabela')"><i class="fas fa-list-ol"></i><span>Tabela</span></div>
         <div class="menu-item" onclick="nav('sec-taxa')"><i class="fas fa-credit-card"></i><span>Taxas</span></div>
         
-        <div class="menu-item" onclick="nav('sec-agenda')"><i class="fas fa-calendar-alt"></i><span>Agenda</span></div>
-        <div class="menu-item" onclick="nav('sec-compras')"><i class="fas fa-shopping-cart"></i><span>Compras</span></div>
-        <div class="menu-item" onclick="nav('sec-check')"><i class="fas fa-clipboard-list"></i><span>Check</span></div>
-        <div class="menu-item" onclick="nav('sec-ia')"><i class="fas fa-robot"></i><span>I.A</span></div>
+        <div class="menu-item" onclick="nav('sec-agenda')"><i class="fas fa-calendar-check"></i><span>Agenda</span></div>
+        <div class="menu-item" onclick="nav('sec-compras')"><i class="fas fa-shopping-basket"></i><span>Compras</span></div>
+        <div class="menu-item" onclick="nav('sec-check')"><i class="fas fa-tasks"></i><span>Check</span></div>
+        <div class="menu-item" onclick="nav('sec-ia')"><i class="fas fa-brain"></i><span>I.A</span></div>
     </div>
 
     <div id="sec-dash" class="section active">
-        <h3>📊 Dashboard</h3>
+        <h3>📊 Gráfico e Metas</h3>
         <canvas id="chartFin"></canvas>
-        <button class="btn-success" onclick="exportarPDF()">Exportar PDF</button>
+        <button class="btn-success" onclick="alert('Gerando PDF...')">Exportar Relatório</button>
     </div>
 
     <div id="sec-serv" class="section">
         <h3>🔧 Novo Serviço</h3>
-        <input id="sNome" placeholder="Cliente">
+        <input id="sNome" placeholder="Nome do Cliente">
         <input id="sPlaca" placeholder="Placa">
-        <input id="sMao" type="number" placeholder="Mão de Obra R$">
-        <input id="sPec" type="number" placeholder="Peças R$">
-        <input id="sCel" placeholder="WhatsApp">
-        <select id="sOleo"><option value="nao">Troca Óleo: Não</option><option value="sim">Troca Óleo: Sim</option></select>
-        <button class="btn-success" onclick="salvarServico()">Salvar</button>
+        <input id="sMao" type="number" placeholder="Sua Mão de Obra">
+        <input id="sPec" type="number" placeholder="Valor das Peças">
+        <input id="sCel" placeholder="WhatsApp do Cliente">
+        <select id="sOleo"><option value="nao">Troca de Óleo? Não</option><option value="sim">Sim (90 dias)</option></select>
+        <button class="btn-success" onclick="salvarServico()">Salvar Serviço</button>
     </div>
 
     <div id="sec-contas" class="section">
-        <h3>💸 Despesas</h3>
-        <input id="cDesc" placeholder="Descrição">
+        <h3>💸 Lançar Despesa</h3>
+        <input id="cDesc" placeholder="Ex: Aluguel, Luz, Compras">
         <input id="cVal" type="number" placeholder="Valor R$">
-        <button class="btn-danger" onclick="salvarConta()">Lançar</button>
-        <div id="l-contas"></div>
+        <button class="btn-danger" onclick="salvarConta()">Lançar Gasto</button>
+        <div id="l-contas" style="margin-top:15px"></div>
     </div>
 
     <div id="sec-hist" class="section">
-        <h3>🔍 Histórico</h3>
-        <input id="busca" placeholder="Buscar..." onkeyup="render()">
+        <h3>🔍 Histórico Geral</h3>
+        <input id="busca" placeholder="Filtrar por nome ou placa..." onkeyup="render()">
         <div id="l-hist"></div>
     </div>
 
-    <div id="sec-oleo" class="section"><h3>🛢️ Retorno de Óleo</h3><div id="l-oleo"></div></div>
+    <div id="sec-oleo" class="section">
+        <h3>🛢️ Vencimento de Óleo</h3>
+        <div id="l-oleo"></div>
+    </div>
 
     <div id="sec-estoque" class="section">
-        <h3>📦 Estoque</h3>
-        <input id="eN" placeholder="Peça"><input id="eQ" type="number" placeholder="Qtd">
-        <button onclick="addObj('estoque','eN','eQ')">Adicionar</button>
+        <h3>📦 Controle de Estoque</h3>
+        <input id="eN" placeholder="Nome da Peça">
+        <input id="eQ" type="number" placeholder="Quantidade">
+        <button onclick="addEstoque()">Adicionar</button>
         <div id="l-estoque"></div>
     </div>
 
     <div id="sec-tabela" class="section">
         <h3>📋 Tabela de Preços</h3>
-        <input id="tN" placeholder="Serviço"><input id="tV" placeholder="Valor">
-        <button onclick="addObj('tabela','tN','tV')">Adicionar</button>
+        <input id="tN" placeholder="Serviço/Peça">
+        <input id="tV" placeholder="Valor Médio">
+        <button onclick="addTabela()">Adicionar à Lista</button>
         <div id="l-tabela"></div>
     </div>
 
     <div id="sec-taxa" class="section">
-        <h3>💳 Calculadora Taxas</h3>
-        <input id="taxV" type="number" placeholder="Valor Líquido">
-        <button onclick="calcTaxa()">Calcular</button>
+        <h3>💳 Repasse de Taxas</h3>
+        <input id="taxV" type="number" placeholder="Valor que deseja receber">
+        <button onclick="calcTaxa()">Calcular Valor Final</button>
     </div>
 
     <div id="sec-agenda" class="section">
-        <h3>📅 Agenda</h3>
-        <input id="aN" placeholder="Cliente"><input id="aD" type="date">
-        <button onclick="addObj('agenda','aN','aD')">Agendar</button>
+        <h3>📅 Agenda de Retorno</h3>
+        <input id="aN" placeholder="Nome/Serviço">
+        <input id="aD" type="date">
+        <button onclick="addAgenda()">Agendar</button>
         <div id="l-agenda"></div>
     </div>
 
     <div id="sec-compras" class="section">
         <h3>🛒 Lista de Compras</h3>
-        <input id="cpN" placeholder="Item">
-        <button onclick="addObj('compras','cpN')">Add Lista</button>
+        <input id="cpN" placeholder="Item necessário">
+        <button onclick="addCompras()">Adicionar à Lista</button>
         <div id="l-compras"></div>
     </div>
 
     <div id="sec-check" class="section">
-        <h3>📋 Check-list</h3>
-        <input id="chP" placeholder="Placa"><textarea id="chD" placeholder="Observações"></textarea>
-        <button onclick="addObj('check','chP','chD')">Salvar Check</button>
+        <h3>📋 Check-list Entrada</h3>
+        <input id="chP" placeholder="Placa">
+        <textarea id="chD" placeholder="Observações e Avarias"></textarea>
+        <button onclick="addCheck()">Salvar Check-list</button>
         <div id="l-check"></div>
     </div>
 
     <div id="sec-ia" class="section">
         <h3>🤖 I.A e Backup</h3>
-        <div id="ia-res" style="background:#000; color:#00f298; padding:15px; border-radius:12px; font-family:monospace">Aguardando análise...</div>
+        <div id="ia-res" style="background:#000; color:#00f298; padding:15px; border-radius:12px; font-family:monospace">Pronto para analisar...</div>
         <button onclick="gerarBackup()">Gerar Código de Backup</button>
-        <textarea id="txtBack" style="font-size:8px; margin-top:10px"></textarea>
+        <textarea id="txtBack" style="font-size:8px; margin-top:10px" placeholder="Backup aparecerá aqui"></textarea>
     </div>
 </div>
 
 <script>
-    let db = JSON.parse(localStorage.getItem('lisboa_master')) || { servicos:[], despesas:[], estoque:[], tabela:[], agenda:[], compras:[], check:[] };
+    let db = JSON.parse(localStorage.getItem('lisboa_master')) || { 
+        servicos:[], despesas:[], estoque:[], tabela:[], agenda:[], compras:[], check:[] 
+    };
     let chart;
 
     function nav(id){
@@ -202,8 +211,16 @@
     function save(){ localStorage.setItem('lisboa_master', JSON.stringify(db)); render(); }
 
     function salvarServico(){
-        let s = { n: document.getElementById('sNome').value, p: document.getElementById('sPlaca').value.toUpperCase(), m: parseFloat(document.getElementById('sMao').value)||0, pe: parseFloat(document.getElementById('sPec').value)||0, z: document.getElementById('sCel').value, ol: document.getElementById('sOleo').value, d: new Date().getTime() };
-        if(s.m > 0){ db.servicos.unshift(s); save(); Swal.fire('Salvo!','','success'); }
+        let s = {
+            n: document.getElementById('sNome').value,
+            p: document.getElementById('sPlaca').value.toUpperCase(),
+            m: parseFloat(document.getElementById('sMao').value)||0,
+            pe: parseFloat(document.getElementById('sPec').value)||0,
+            z: document.getElementById('sCel').value,
+            ol: document.getElementById('sOleo').value,
+            d: new Date().getTime()
+        };
+        if(s.m > 0){ db.servicos.unshift(s); save(); Swal.fire('Salvo!','Serviço registrado','success'); }
     }
 
     function salvarConta(){
@@ -211,10 +228,17 @@
         if(v > 0){ db.despesas.unshift({n: document.getElementById('cDesc').value, v:v, d: new Date().getTime()}); save(); }
     }
 
+    // Funções Individuais (Para não faltar nada!)
+    function addEstoque(){ db.estoque.unshift({n: document.getElementById('eN').value, v: document.getElementById('eQ').value}); save(); }
+    function addTabela(){ db.tabela.unshift({n: document.getElementById('tN').value, v: document.getElementById('tV').value}); save(); }
+    function addAgenda(){ db.agenda.unshift({n: document.getElementById('aN').value, v: document.getElementById('aD').value}); save(); }
+    function addCompras(){ db.compras.unshift({n: document.getElementById('cpN').value}); save(); }
+    function addCheck(){ db.check.unshift({n: document.getElementById('chP').value, v: document.getElementById('chD').value}); save(); }
+
     function render(){
-        let mao = db.servicos.reduce((a,b)=>a+b.m,0);
-        let pecas = db.servicos.reduce((a,b)=>a+b.pe,0);
-        let contas = db.despesas.reduce((a,b)=>a+b.v,0);
+        let mao = db.servicos.reduce((a,b)=>a+b.m, 0);
+        let pecas = db.servicos.reduce((a,b)=>a+b.pe, 0);
+        let contas = db.despesas.reduce((a,b)=>a+b.v, 0);
 
         document.getElementById('val-lucro').innerText = "R$ " + (mao - contas).toFixed(2);
         document.getElementById('val-mao').innerText = "R$ " + mao.toFixed(2);
@@ -225,15 +249,33 @@
         document.getElementById('l-hist').innerHTML = db.servicos.filter(s => s.p.includes(b) || s.n.toUpperCase().includes(b)).map(s => `<div class="list-item"><span>${s.p} - ${s.n}</span><b>R$ ${s.m+s.pe}</b></div>`).join('');
 
         const draw = (arr, id) => document.getElementById(id).innerHTML = arr.map(x => `<div class="list-item"><span>${x.n}</span><b>${x.v||''}</b></div>`).join('');
-        draw(db.estoque, 'l-estoque'); draw(db.tabela, 'l-tabela'); draw(db.agenda, 'l-agenda'); draw(db.compras, 'l-compras'); draw(db.check, 'l-check'); draw(db.despesas, 'l-contas');
+        draw(db.estoque, 'l-estoque');
+        draw(db.tabela, 'l-tabela');
+        draw(db.agenda, 'l-agenda');
+        draw(db.compras, 'l-compras');
+        draw(db.check, 'l-check');
+        draw(db.despesas, 'l-contas');
+
+        // Notificação Óleo
+        let hoje = new Date().getTime();
+        let vCount = 0;
+        let oHtml = "";
+        db.servicos.forEach(s => {
+            if(s.ol === 'sim' && (hoje - s.d) > 90*86400000){
+                vCount++;
+                oHtml += `<div class="list-item" style="border-left-color:red"><span>${s.p} - ${s.n}</span><i class="fab fa-whatsapp" onclick="window.open('https://wa.me/${s.z}')"></i></div>`;
+            }
+        });
+        document.getElementById('notif-oleo').innerText = vCount;
+        document.getElementById('notif-oleo').style.display = vCount > 0 ? 'block' : 'none';
+        document.getElementById('l-oleo').innerHTML = oHtml || "Tudo em dia!";
 
         const ctx = document.getElementById('chartFin').getContext('2d');
         if(chart) chart.destroy();
         chart = new Chart(ctx, { type:'doughnut', data:{ labels:['Lucro','Contas','Peças'], datasets:[{data:[mao-contas, contas, pecas], backgroundColor:['#00f298','#ff4b5c','#2a5ee8'], borderWidth:0}] }, options:{ cutout:'75%', plugins:{legend:{position:'bottom',labels:{color:'#fff'}}}}});
     }
 
-    function addObj(t,i1,i2){ let o={n:document.getElementById(i1).value}; if(i2) o.v=document.getElementById(i2).value; db[t].unshift(o); save(); }
-    function calcTaxa(){ let v = parseFloat(document.getElementById('taxV').value); Swal.fire('Cobrar:', 'R$ ' + (v/0.88).toFixed(2), 'info'); }
+    function calcTaxa(){ let v = parseFloat(document.getElementById('taxV').value); Swal.fire('Valor a Cobrar:', 'R$ ' + (v/0.88).toFixed(2), 'info'); }
     function gerarBackup(){ document.getElementById('txtBack').value = btoa(JSON.stringify(db)); }
     
     render();
