@@ -1,143 +1,505 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LISBOA PRO MASTER</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root { --bg: #0a111a; --card: #161c2d; --primary: #2a5ee8; --success: #00f298; --danger: #ff4b5c; }
-        body { margin: 0; font-family: sans-serif; background: var(--bg); color: #fff; padding-bottom: 50px; }
-        
-        /* LOGO - USANDO O NOME EXATO DO SEU GITHUB */
-        .header { padding: 20px; text-align: center; background: #111827; }
-        .header img { max-width: 180px; height: auto; display: block; margin: 0 auto; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>LISBOA PRO MASTER</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+<style>
+:root {
+    --bg: #0a0e17; --card: #161b28; --primary: #2a5ee8;
+    --accent: #00d2ff; --success: #00f298; --danger: #ff4b5c;
+    --text: #e1e8f0;
+}
+body {
+    margin: 0; font-family: 'Inter', sans-serif;
+    background: var(--bg); color: var(--text);
+    padding-bottom: 80px;
+}
 
-        .container { padding: 15px; max-width: 500px; margin: auto; }
-        
-        .balance-card { background: #1e2a4a; padding: 25px; border-radius: 24px; text-align: center; margin-bottom: 20px; border: 1px solid #2d3a5a; }
-        .balance-val { font-size: 3rem; font-weight: 800; color: var(--success); margin: 5px 0; }
-        .sub-vals { display: flex; justify-content: space-between; font-size: 10px; border-top: 1px solid #333; padding-top: 15px; }
+/* Cabeçalho */
+.header {
+    background: var(--card); padding: 20px; text-align: center;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+.header img { max-width: 130px; }
 
-        /* GRID DE 12 BOTÕES CONFORME A FOTO 1 */
-        .menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
-        .menu-item { background: rgba(255,255,255,0.05); padding: 18px 2px; border-radius: 18px; text-align: center; cursor: pointer; border: 1px solid #333; }
-        .menu-item i { font-size: 1.5rem; color: #00d2ff; margin-bottom: 8px; display: block; }
-        .menu-item span { font-size: 0.58rem; font-weight: bold; text-transform: uppercase; display: block; }
+/* Container */
+.container { padding: 15px; max-width: 600px; margin: auto; }
 
-        .section { display: none; background: var(--card); padding: 20px; border-radius: 20px; animation: fadeIn 0.3s; }
-        .active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+/* Cartão de saldo */
+.balance-card {
+    background: linear-gradient(135deg, #1e2a4a, #161b28);
+    padding: 25px; border-radius: 24px;
+    text-align: center; margin-bottom: 20px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+.balance-card h2 { margin: 0; font-size: 0.8rem; text-transform: uppercase; opacity:0.7; }
+.balance-val { font-size: 2.5rem; font-weight: 800; color: var(--success); margin: 10px 0; }
 
-        input { width: 100%; padding: 14px; margin: 8px 0; border-radius: 12px; border: 1px solid #333; background: #000; color: #fff; box-sizing: border-box; }
-        button { width: 100%; padding: 16px; background: var(--primary); border: none; color: #fff; font-weight: bold; border-radius: 12px; margin-top: 10px; cursor: pointer; }
-        .list-item { background: rgba(255,255,255,0.03); padding: 15px; border-radius: 14px; margin-bottom: 10px; display: flex; justify-content: space-between; border-left: 4px solid var(--primary); }
-    </style>
+/* Menu Grid */
+.menu-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 25px; }
+.menu-item {
+    background: var(--card); padding: 12px 5px;
+    border-radius: 16px; text-align: center;
+    border: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer; transition: 0.2s;
+}
+.menu-item i { font-size: 1.2rem; color: var(--accent); margin-bottom: 6px; display:block; }
+.menu-item span { font-size: 0.55rem; font-weight:700; text-transform: uppercase; }
+.menu-item:active { transform: scale(0.9); background: var(--primary); }
+
+/* Seções */
+.section { background: var(--card); padding: 20px; border-radius:24px; display:none; border:1px solid rgba(255,255,255,0.05); }
+.active { display:block; animation: slideIn 0.3s ease-out; }
+@keyframes slideIn { from { opacity:0; transform:translateY(10px);} to{opacity:1; transform:translateY(0);} }
+
+/* Inputs e Botões */
+input, select, textarea {
+    background:#0f141e; border:1px solid #2d364a;
+    color:white; padding:14px; border-radius:12px;
+    width:100%; box-sizing:border-box; margin:8px 0; font-size:15px;
+}
+button {
+    background:var(--primary); color:white;
+    padding:16px; border-radius:14px; border:none;
+    font-weight:700; width:100%; cursor:pointer;
+    margin-top:10px; font-size:14px; transition:0.2s;
+}
+button:active{opacity:0.8;}
+.btn-success{background:var(--success); color:#0a0e17;}
+.btn-danger{background:var(--danger);}
+
+/* Listas */
+.list-item {
+    background: rgba(255,255,255,0.03); padding:15px;
+    border-radius:16px; margin-bottom:10px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-left:4px solid var(--primary);
+}
+.badge {
+    background: var(--danger); color:white;
+    border-radius:50px; padding:2px 8px; font-size:10px;
+    position:absolute; top:-5px; right:-5px;
+}
+
+/* IA Box */
+.ia-box {
+    background:#000; border:1px solid var(--success);
+    padding:15px; border-radius:12px;
+    font-family:'Courier New', monospace;
+    color:var(--success); font-size:13px; line-height:1.4;
+}
+</style>
 </head>
 <body>
 
 <div class="header">
-    <img src="B1BCC237-7C89-4142-8131-6DA05C2A2C61 2.png" alt="Logo Lisboa">
+    <img src="B1BCC237-7C89-4142-8131-6DA05C2A2C61 2.png" alt="Lisboa Pro Master">
 </div>
 
-<div class="container">
+<div id="loginPage" class="container">
     <div class="balance-card">
-        <small>SALDO REAL (LUCRO LIMPO)</small>
+        <i class="fas fa-shield-alt" style="font-size:2rem; color:var(--accent)"></i>
+        <h3>ACESSO RESTRITO</h3>
+        <input id="pass" type="password" placeholder="Senha Administrativa">
+        <button onclick="login()">ENTRAR NO PAINEL</button>
+    </div>
+</div>
+
+<div id="mainPage" class="container" style="display:none">
+    <div class="balance-card">
+        <h2>Saldo Real (LUCRO LIMPO)</h2>
         <div class="balance-val" id="val-lucro">R$ 0,00</div>
-        <div class="sub-vals">
-            <span>M. Obra: <b id="val-mao" style="color:#00d2ff">R$ 0,00</b></span>
-            <span>Contas: <b id="val-contas" style="color:var(--danger)">R$ 0,00</b></span>
-            <span>Peças: <b id="val-pecas" style="color:var(--primary)">R$ 0,00</b></span>
+        <div style="display:flex; justify-content:space-around; opacity:0.8; font-size:12px;">
+            <span>Mão de Obra: <b id="val-mao" style="color:var(--accent)">R$ 0</b></span>
+            <span>Contas: <b id="val-contas" style="color:var(--danger)">R$ 0</b></span>
+            <span>Peças: <b id="val-pecas" style="color:var(--primary)">R$ 0</b></span>
         </div>
     </div>
 
     <div class="menu-grid">
-        <div class="menu-item" onclick="nav('s1')"><i class="fas fa-chart-line"></i><span>Dash</span></div>
-        <div class="menu-item" onclick="nav('s2')"><i class="fas fa-plus"></i><span>Novo</span></div>
-        <div class="menu-item" onclick="nav('s3')"><i class="fas fa-receipt"></i><span>Contas</span></div>
-        <div class="menu-item" onclick="nav('s4')"><i class="fas fa-search"></i><span>Busca</span></div>
-        <div class="menu-item" onclick="nav('s5')"><i class="fas fa-oil-can"></i><span>Óleo</span></div>
-        <div class="menu-item" onclick="nav('s6')"><i class="fas fa-box"></i><span>Estoque</span></div>
-        <div class="menu-item" onclick="nav('s7')"><i class="fas fa-tags"></i><span>Tabela</span></div>
-        <div class="menu-item" onclick="nav('s8')"><i class="fas fa-credit-card"></i><span>Taxas</span></div>
-        <div class="menu-item" onclick="nav('s9')"><i class="fas fa-calendar-alt"></i><span>Agenda</span></div>
-        <div class="menu-item" onclick="nav('s10')"><i class="fas fa-shopping-cart"></i><span>Compras</span></div>
-        <div class="menu-item" onclick="nav('s11')"><i class="fas fa-clipboard-list"></i><span>Check</span></div>
-        <div class="menu-item" onclick="nav('s12')"><i class="fas fa-robot"></i><span>I.A</span></div>
+        <div class="menu-item" onclick="nav('sec-dash')"><i class="fas fa-chart-line"></i><span>Dash</span></div>
+        <div class="menu-item" onclick="nav('sec-serv')"><i class="fas fa-plus"></i><span>Novo</span></div>
+        <div class="menu-item" onclick="nav('sec-contas')"><i class="fas fa-receipt"></i><span>Contas</span></div>
+        <div class="menu-item" onclick="nav('sec-hist')"><i class="fas fa-search"></i><span>Busca</span></div>
+        <div class="menu-item" onclick="nav('sec-oleo')" style="position:relative">
+            <i class="fas fa-oil-can"></i><span>Óleo</span>
+            <span id="notif-oleo" class="badge" style="display:none">0</span>
+        </div>
+        <div class="menu-item" onclick="nav('sec-estoque')"><i class="fas fa-box"></i><span>Estoque</span></div>
+        <div class="menu-item" onclick="nav('sec-tabela')"><i class="fas fa-tags"></i><span>Tabela</span></div>
+        <div class="menu-item" onclick="nav('sec-taxa')"><i class="fas fa-credit-card"></i><span>Taxas</span></div>
+        <div class="menu-item" onclick="nav('sec-agenda')"><i class="fas fa-calendar"></i><span>Agenda</span></div>
+        <div class="menu-item" onclick="nav('sec-compras')"><i class="fas fa-cart-plus"></i><span>Compras</span></div>
+        <div class="menu-item" onclick="nav('sec-check')"><i class="fas fa-clipboard-list"></i><span>Check</span></div>
+        <div class="menu-item" onclick="nav('sec-ia')"><i class="fas fa-brain"></i><span>I.A</span></div>
     </div>
-
-    <div id="s1" class="section active">
-        <h3>Resumo Financeiro</h3>
-        <canvas id="chart"></canvas>
+<!-- DASHBOARD FINANCEIRO -->
+<div id="sec-dash" class="section active">
+    <h3>📊 Resumo Financeiro</h3>
+    <canvas id="chartFin" height="200"></canvas>
+    <div>
+        <label for="metaLucro">Meta de Lucro R$:</label>
+        <input id="metaLucro" type="number" placeholder="Ex: 5000">
+        <label for="metaServ">Meta de Serviços:</label>
+        <input id="metaServ" type="number" placeholder="Ex: 30">
+        <label for="metaPecas">Meta de Peças R$:</label>
+        <input id="metaPecas" type="number" placeholder="Ex: 2000">
+        <button class="btn-success" onclick="renderDashboardMetas()">Atualizar Metas</button>
     </div>
-
-    <div id="s2" class="section">
-        <h3>Novo Serviço</h3>
-        <input id="sN" placeholder="Nome do Cliente">
-        <input id="sM" type="number" placeholder="Mão de Obra R$">
-        <button onclick="addServ()">Salvar Serviço</button>
-    </div>
-
-    <div id="s3" class="section">
-        <h3>Lançar Conta</h3>
-        <input id="cN" placeholder="Descrição da Conta">
-        <input id="cV" type="number" placeholder="Valor R$">
-        <button onclick="addConta()">Pagar Conta</button>
-        <div id="l-contas" style="margin-top:15px"></div>
-    </div>
-
-    <div id="s4" class="section"><h3>Histórico</h3><div id="l-hist"></div></div>
-    <div id="s6" class="section"><h3>Estoque</h3><input id="eN" placeholder="Peça"><button onclick="addE()">Add</button><div id="l-e"></div></div>
+    <button class="btn-success" onclick="gerarPDF()">GERAR RELATÓRIO PDF</button>
+    <button class="btn-success" onclick="exportCSV()">EXPORTAR CSV/EXCEL</button>
+    <button class="btn-danger" onclick="resetMes()">ZERAR DADOS DO MÊS</button>
 </div>
 
+<!-- NOVO SERVIÇO -->
+<div id="sec-serv" class="section">
+    <h3>🔧 Novo Serviço</h3>
+    <input id="sNome" placeholder="Nome do Cliente">
+    <input id="sPlaca" placeholder="Placa">
+    <input id="sCel" placeholder="Celular (WhatsApp)">
+    <input id="sMao" type="number" placeholder="Mão de Obra (Seu Ganho)">
+    <input id="sPec" type="number" placeholder="Peças (Custo Reposição)">
+    <select id="sOleo">
+        <option value="nao">Troca de Óleo? Não</option>
+        <option value="sim">Troca de Óleo? Sim (Lembrar em 90 dias)</option>
+    </select>
+    <button class="btn-success" onclick="salvarServico()">SALVAR SERVIÇO</button>
+    <button onclick="zapOrcamento()">ENVIAR ORÇAMENTO (WhatsApp)</button>
+</div>
+
+<!-- CONTAS E DESPESAS -->
+<div id="sec-contas" class="section">
+    <h3>💸 Contas e Despesas</h3>
+    <input id="cDesc" placeholder="Ex: Luz, Aluguel, Almoço">
+    <input id="cVal" type="number" placeholder="Valor R$">
+    <input id="cData" type="date">
+    <select id="cTipo">
+        <option value="pix">PIX</option>
+        <option value="dinheiro">Dinheiro</option>
+        <option value="debito">Cartão Débito</option>
+        <option value="credito">Cartão Crédito</option>
+    </select>
+    <button class="btn-danger" onclick="salvarConta()">PAGAR CONTA</button>
+    <div>
+        <label>Filtrar Contas:</label>
+        <input id="filtroContas" placeholder="Ex: acima de R$ 100" onkeyup="render()">
+    </div>
+    <div id="lista-contas"></div>
+</div>
+
+<!-- HISTÓRICO -->
+<div id="sec-hist" class="section">
+    <h3>📂 Histórico de Serviços</h3>
+    <input id="busca" placeholder="Buscar por placa, cliente..." onkeyup="render()">
+    <div>
+        <label>Filtrar por valor mínimo:</label>
+        <input id="filtroLucro" type="number" placeholder="Ex: 200" onkeyup="render()">
+    </div>
+    <div id="lista-hist"></div>
+</div>
+
+<!-- LEMBRETE DE ÓLEO -->
+<div id="sec-oleo" class="section">
+    <h3>🛢️ Lembrete de Óleo</h3>
+    <div id="lista-oleo"></div>
+</div>
+
+<!-- ESTOQUE INTELIGENTE -->
+<div id="sec-estoque" class="section">
+    <h3>📦 Estoque</h3>
+    <input id="eN" placeholder="Peça">
+    <input id="eQ" type="number" placeholder="Quantidade">
+    <button onclick="addObj('estoque','eN','eQ')">ADICIONAR</button>
+    <label>Alerta mínimo:</label>
+    <input id="estoqueAlerta" type="number" placeholder="Ex: 5" onkeyup="render()">
+    <div id="l-estoque"></div>
+</div>
+
+<!-- TABELA DE PREÇOS -->
+<div id="sec-tabela" class="section">
+    <h3>📋 Tabela de Preços</h3>
+    <input id="tN" placeholder="Serviço">
+    <input id="tV" placeholder="Valor">
+    <button onclick="addObj('tabela','tN','tV')">ADICIONAR</button>
+    <div id="l-tabela"></div>
+</div>
+
+<!-- CALCULADORA DE TAXAS -->
+<div id="sec-taxa" class="section">
+    <h3>💳 Calculadora de Taxas</h3>
+    <input id="taxV" type="number" placeholder="Valor do Serviço">
+    <select id="taxTipo">
+        <option value="credito">Cartão Crédito (+12%)</option>
+        <option value="debito">Cartão Débito (+4%)</option>
+        <option value="pix">PIX/Dinheiro (0%)</option>
+    </select>
+    <button onclick="calcTaxa()">CALCULAR</button>
+</div>
+
+<!-- AGENDA COMPLETA -->
+<div id="sec-agenda" class="section">
+    <h3>📅 Agenda de Retorno</h3>
+    <input id="aN" placeholder="Cliente">
+    <input id="aD" type="date">
+    <button onclick="addObj('agenda','aN','aD')">AGENDAR</button>
+    <div id="l-agenda"></div>
+</div>
+
+<!-- LISTA DE COMPRAS -->
+<div id="sec-compras" class="section">
+    <h3>🛒 Lista de Compras</h3>
+    <input id="cpN" placeholder="Item faltando">
+    <button onclick="addObj('compras','cpN')">ADICIONAR</button>
+    <div id="l-compras"></div>
+</div>
+
+<!-- CHECK-LIST -->
+<div id="sec-check" class="section">
+    <h3>📋 Check-list Entrada</h3>
+    <input id="chP" placeholder="Placa">
+    <textarea id="chD" placeholder="Observações/Avarias"></textarea>
+    <button onclick="addObj('check','chP','chD')">SALVAR</button>
+    <div id="l-check"></div>
+</div>
+
+<!-- I.A ANALISTA + BACKUP -->
+<div id="sec-ia" class="section">
+    <h3>🤖 Analista Inteligente</h3>
+    <div id="ia-res" class="ia-box">Aguardando dados...</div>
+    <button onclick="analisarIA()">GERAR DIAGNÓSTICO</button>
+    <hr style="opacity:0.1; margin:20px 0">
+    <button onclick="gerarBackup()" style="background:#333">GERAR BACKUP</button>
+    <textarea id="txtBack" style="font-size:8px"></textarea>
+</div>
 <script>
-    let db = JSON.parse(localStorage.getItem('lisboa_oficial')) || { servicos:[], despesas:[], estoque:[] };
-    let chart;
+/********** BANCO DE DADOS CENTRAL **********/
+let db = JSON.parse(localStorage.getItem('lisboa_master')) || {
+    mao:0, contas:0, pecas:0,
+    servicos:[], despesas:[], estoque:[], tabela:[],
+    agenda:[], compras:[], check:[]
+};
+let chart;
 
-    function nav(id) { 
-        document.querySelectorAll('.section').forEach(s => s.classList.remove('active')); 
-        document.getElementById(id).classList.add('active'); 
-    }
+/********** LOGIN **********/
+const loginPage = document.getElementById('loginPage');
+const mainPage = document.getElementById('mainPage');
+function login(){
+    if(document.getElementById('pass').value === '1234'){
+        loginPage.style.display='none';
+        mainPage.style.display='block';
+        render();
+    } else { alert('Senha incorreta!'); }
+}
 
-    function save() { localStorage.setItem('lisboa_oficial', JSON.stringify(db)); render(); }
+/********** NAVEGAÇÃO **********/
+function nav(id){
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+}
 
-    function addServ() {
-        let n = document.getElementById('sN').value;
-        let m = parseFloat(document.getElementById('sM').value) || 0;
-        if(n) { db.servicos.unshift({n, m}); save(); nav('s1'); }
-    }
-
-    function addConta() {
-        let n = document.getElementById('cN').value;
-        let v = parseFloat(document.getElementById('cV').value) || 0;
-        if(n) { db.despesas.unshift({n, v}); save(); }
-    }
-
-    function render() {
-        let m = db.servicos.reduce((a,b)=>a+b.m, 0);
-        let c = db.despesas.reduce((a,b)=>a+b.v, 0);
-        
-        document.getElementById('val-lucro').innerText = "R$ " + (m-c).toFixed(2);
-        document.getElementById('val-mao').innerText = "R$ " + m.toFixed(2);
-        document.getElementById('val-contas').innerText = "R$ " + c.toFixed(2);
-
-        document.getElementById('l-contas').innerHTML = db.despesas.map(x => `<div class="list-item"><span>${x.n}</span><b>R$ ${x.v.toFixed(2)}</b></div>`).join('');
-        
-        const ctx = document.getElementById('chart').getContext('2d');
-        if(chart) chart.destroy();
-        chart = new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Lucro', 'Contas'],
-                datasets: [{ data: [m-c, c], backgroundColor: ['#00f298', '#ff4b5c'], borderWidth: 0 }]
-            },
-            options: { cutout: '80%', plugins: { legend: { position: 'bottom', labels: { color: '#fff', font: { size: 10 } } } } }
+/********** FUNÇÕES DE CADASTRO **********/
+function salvarServico(){
+    let m = parseFloat(sMao.value)||0;
+    let p = parseFloat(sPec.value)||0;
+    if(m+p>0){
+        db.mao += m; db.pecas += p;
+        db.servicos.unshift({
+            n:sNome.value,
+            p:sPlaca.value.toUpperCase(),
+            v:(m+p),
+            m:m, pe:p,
+            z:sCel.value,
+            ol:sOleo.value,
+            d:new Date().getTime()
         });
+        sMao.value=''; sPec.value=''; sNome.value=''; sPlaca.value=''; sCel.value='';
+        save();
+        alert("✅ Serviço salvo!");
     }
+}
 
-    render();
+function salvarConta(){
+    let v=parseFloat(cVal.value)||0;
+    if(v>0){
+        db.contas += v;
+        db.despesas.unshift({
+            n:cDesc.value,
+            v:v,
+            tipo: cTipo.value,
+            d:cData.value || new Date().toLocaleDateString()
+        });
+        cVal.value=''; cDesc.value=''; save();
+    }
+}
+
+/********** FUNÇÃO GENÉRICA ADD **********/
+function addObj(t,id1,id2){
+    let obj = { n: document.getElementById(id1).value };
+    if(id2) obj.v = document.getElementById(id2).value;
+    db[t].push(obj);
+    document.getElementById(id1).value='';
+    if(id2) document.getElementById(id2).value='';
+    save();
+}
+
+/********** RENDERIZAÇÃO E ALERTAS **********/
+function render(){
+    // SALDO
+    let lucro = db.mao-db.contas;
+    document.getElementById('val-lucro').innerText = "R$ "+lucro.toFixed(2);
+    document.getElementById('val-mao').innerText = "R$ "+db.mao.toFixed(2);
+    document.getElementById('val-contas').innerText = "R$ "+db.contas.toFixed(2);
+    document.getElementById('val-pecas').innerText = "R$ "+db.pecas.toFixed(2);
+
+    // HISTÓRICO FILTRADO
+    let filtroPlaca = (busca.value||"").toUpperCase();
+    let filtroLucro = parseFloat(document.getElementById('filtroLucro')?.value) || 0;
+    document.getElementById('lista-hist').innerHTML =
+        db.servicos
+        .filter(s=>s.p.includes(filtroPlaca) && s.v>=filtroLucro)
+        .map(s=>`<div class="list-item"><span><b>${s.p}</b> - ${s.n}</span><b>R$ ${s.v}</b></div>`).join('');
+
+    // CONTAS FILTRADAS
+    let filtroConta = parseFloat(document.getElementById('filtroContas')?.value) || 0;
+    document.getElementById('lista-contas').innerHTML =
+        db.despesas
+        .filter(d=>d.v>=filtroConta)
+        .map(d=>`<div class="list-item"><span>${d.n} (${d.tipo})</span><b style="color:red">- R$ ${d.v}</b></div>`).join('');
+
+    // ÓLEO VENCIDO (Notificação Automática)
+    let hoje = new Date().getTime();
+    let vencidos=0;
+    let htmlOleo="";
+    db.servicos.forEach(s=>{
+        if(s.ol==='sim'){
+            let dias = Math.floor((hoje-s.d)/(1000*60*60*24));
+            if(dias>=90){
+                vencidos++;
+                htmlOleo+=`<div class="list-item" style="border-left-color:red">
+                <span>${s.p} - ${s.n} (${dias} dias)</span>
+                <i class="fab fa-whatsapp" onclick="window.open('https://api.whatsapp.com/send?phone=${s.z}&text=Olá! Já faz 3 meses da última troca de óleo. Vamos agendar?')"></i>
+                </div>`;
+            }
+        }
+    });
+    document.getElementById('notif-oleo').innerText=vencidos;
+    document.getElementById('notif-oleo').style.display=vencidos>0?'block':'none';
+    document.getElementById('lista-oleo').innerHTML = htmlOleo||"Sem trocas pendentes.";
+
+    // ESTOQUE ALERTA
+    let minEstoque = parseInt(document.getElementById('estoqueAlerta')?.value)||5;
+    let htmlEst="";
+    db.estoque.forEach(e=>{
+        let cor = (parseInt(e.v) || 0) < minEstoque ? 'red':'';
+        htmlEst+=`<div class="list-item" style="border-left-color:${cor||'#00d2ff'}">
+            <span>${e.n}</span><b>${e.v||0}</b></div>`;
+    });
+    document.getElementById('l-estoque').innerHTML = htmlEst||"Estoque vazio.";
+
+    // GRÁFICO LUCRO
+    const ctx = document.getElementById('chartFin').getContext('2d');
+    if(chart) chart.destroy();
+    chart=new Chart(ctx,{
+        type:'doughnut',
+        data:{
+            labels:['Lucro Limpo','Contas','Peças'],
+            datasets:[{
+                data:[lucro>0?lucro:0,db.contas,db.pecas],
+                backgroundColor:['#00f298','#ff4b5c','#00d2ff'],borderWidth:0
+            }]
+        },
+        options:{plugins:{legend:{labels:{color:'white'}}}}
+    });
+
+    renderDashboardMetas(); // Atualiza metas
+}
+
+/********** I.A ANALISTA **********/
+function analisarIA(){
+    let lucro = db.mao-db.contas;
+    let analise="";
+    if(lucro<=0) analise="> ALERTA CRÍTICO: Contas superam o lucro!";
+    else if(db.contas>db.mao*0.5) analise="> CUIDADO: Despesas >50% do lucro.";
+    else analise="> SAÚDE ÓTIMA: Lucro saudável. R$ "+lucro.toFixed(2);
+    document.getElementById('ia-res').innerText=analise+"\n\n> DICA: "+(db.servicos.length<5?"Cadastre mais serviços para análise precisa":"Aproveite a lista de óleo para atrair clientes antigos.");
+}
+
+/********** WHATSAPP ORÇAMENTO **********/
+function zapOrcamento(){
+    let total = parseFloat(sMao.value)+parseFloat(sPec.value);
+    window.open(`https://api.whatsapp.com/send?phone=${sCel.value}&text=Olá! Orçamento Lisboa: Mão de Obra R$ ${sMao.value}, Peças R$ ${sPec.value}. Total R$ ${total}`);
+}
+
+/********** PDF **********/
+function gerarPDF(){
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    doc.text("Relatório Lisboa Master PRO",10,10);
+    doc.text(`Lucro: R$ ${db.mao - db.contas}`,10,20);
+    doc.save("relatorio.pdf");
+}
+
+/********** CSV/EXCEL **********/
+function exportCSV(){
+    let csv = "Seção,Nome,Valor,Data,Tipo\n";
+    db.servicos.forEach(s=>csv+=`Serviço,${s.n},${s.v},${new Date(s.d).toLocaleDateString()},Mão:${s.m} Peças:${s.pe}\n`);
+    db.despesas.forEach(d=>csv+=`Despesa,${d.n},${d.v},${d.d},${d.tipo}\n`);
+    db.estoque.forEach(e=>csv+=`Estoque,${e.n},${e.v},-,-\n`);
+    let blob = new Blob([csv],{type:'text/csv'});
+    let url = URL.createObjectURL(blob);
+    let a=document.createElement('a'); a.href=url; a.download="export.csv"; a.click();
+    URL.revokeObjectURL(url);
+}
+
+/********** TAXA **********/
+function calcTaxa(){
+    let valor=parseFloat(taxV.value)||0;
+    let tipo=taxTipo.value;
+    let total=valor;
+    if(tipo==='credito') total=valor*1.12;
+    else if(tipo==='debito') total=valor*1.04;
+    alert("Para receber R$ "+valor.toFixed(2)+", cobre R$ "+total.toFixed(2));
+}
+
+/********** RESET MÊS **********/
+function resetMes(){
+    if(confirm("Deseja zerar os ganhos do mês?")){ db.mao=0; db.contas=0; db.pecas=0; save(); }
+}
+
+/********** BACKUP AUTOMÁTICO **********/
+function gerarBackup(){ txtBack.value=btoa(JSON.stringify(db)); }
+
+/********** DASHBOARD METAS **********/
+function renderDashboardMetas(){
+    let metaL = parseFloat(document.getElementById('metaLucro')?.value)||0;
+    let metaS = parseFloat(document.getElementById('metaServ')?.value)||0;
+    let metaP = parseFloat(document.getElementById('metaPecas')?.value)||0;
+
+    if(metaL>0){
+        let perc = Math.min((db.mao-db.contas)/metaL*100,100);
+        console.log("Meta Lucro: "+perc.toFixed(1)+"%");
+    }
+    if(metaS>0){
+        let perc = Math.min(db.servicos.length/metaS*100,100);
+        console.log("Meta Serviços: "+perc.toFixed(1)+"%");
+    }
+    if(metaP>0){
+        let perc = Math.min(db.pecas/metaP*100,100);
+        console.log("Meta Peças: "+perc.toFixed(1)+"%");
+    }
+}
+
+/********** SALVAR NO LOCALSTORAGE **********/
+function save(){ localStorage.setItem('lisboa_master',JSON.stringify(db)); render(); }
+
+/********** INICIALIZAÇÃO **********/
+render();
 </script>
 </body>
 </html>
